@@ -385,13 +385,22 @@
                     block: block,
                     product_form_id: product_form_id
                   %}
-                {%- when 'buy_buttons' -%}
+              {%- when 'buy_buttons' -%}
+                {% if section.settings.test_popup_checkbox %}
+                  {%- render 'buy-modal-button',
+                    block: block,
+                    product: product,
+                    product_form_id: product_form_id,
+                    section_id: section.id
+                  -%}
+                {% else %}
                   {%- render 'buy-buttons',
                     block: block,
                     product: product,
                     product_form_id: product_form_id,
                     section_id: section.id
                   -%}
+                {% endif %}
                 {%- when 'custom_liquid' -%}
                   {{ block.settings.custom_liquid }}
                 {%- when 'rating' -%}
@@ -1344,7 +1353,7 @@
       "type": "checkbox",
       "id": "test_popup_checkbox",
       "default": true,
-      "label": "t:sections.featured-product.settings.test_popup_checkbox.label"
+      "label": "Enable/Disable Modal"
     },
     {
       "type": "checkbox",
