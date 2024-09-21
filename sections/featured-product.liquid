@@ -496,6 +496,15 @@
   {% endif %}
 </product-info>
 
+{% if section.settings.test_popup_checkbox %}
+  {%- render 'buy-modal-window',
+    block: block,
+    product: product,
+    product_form_id: product_form_id,
+    section_id: section.id
+  -%}
+{% endif %}
+
 {% schema %}
 {
   "name": "t:sections.featured-product.name",
@@ -1344,16 +1353,22 @@
       "label": "t:sections.featured-product.settings.product.label"
     },
     {
+      "type": "checkbox",
+      "id": "test_popup_checkbox",
+      "default": true,
+      "label": "Enable/Disable buy modal"
+    },
+    {
+      "type": "product_list",
+      "id": "test_popup_products_list",
+      "label": "Select products for Buy Modal",
+      "info": "Max 2 products"
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
-    },
-    {
-      "type": "checkbox",
-      "id": "test_popup_checkbox",
-      "default": true,
-      "label": "Enable/Disable Modal"
     },
     {
       "type": "checkbox",
