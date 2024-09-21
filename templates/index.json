@@ -1,3 +1,12 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "sections": {
     "image_banner": {
@@ -39,6 +48,77 @@
         "show_text_below": false
       }
     },
+    "featured_product_hQGWUd": {
+      "type": "featured-product",
+      "blocks": {
+        "text_N9rM3k": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_q9zrfU": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_hQdbtk": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "variant_picker_JqncK9": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_daFpVx": {
+          "type": "quantity_selector",
+          "settings": {
+          }
+        },
+        "buy_buttons_6gUXjL": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_CGEajh": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_N9rM3k",
+        "title_q9zrfU",
+        "price_hQdbtk",
+        "variant_picker_JqncK9",
+        "quantity_selector_daFpVx",
+        "buy_buttons_6gUXjL",
+        "share_CGEajh"
+      ],
+      "settings": {
+        "product": "",
+        "color_scheme": "scheme-3",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -70,6 +150,7 @@
   },
   "order": [
     "image_banner",
+    "featured_product_hQGWUd",
     "featured_collection"
   ]
 }
