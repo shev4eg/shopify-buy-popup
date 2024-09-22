@@ -53,6 +53,17 @@ $colorDarkGray: #262c3e;
     &::-webkit-scrollbar {
         display: none
     }
+    @media only screen and (max-width: 1024px) {
+        max-width: calc(100vw - 40px);
+    }
+    @media only screen and (max-width: 767px) {
+        padding: 30px;
+        max-width: calc(100vw - 30px);
+    }
+    @media only screen and (max-width: 575px) {
+        padding: 20px;
+        max-width: calc(100vw - 20px);
+    }
 }
 
 .modal-img {
@@ -64,11 +75,20 @@ $colorDarkGray: #262c3e;
     text-align: center;
     max-width: 411px;
     width: 100%;
+    @media only screen and (max-width: 767px) {
+        display: none;
+    }
     img {
         object-fit: cover;
         object-position: center;
         width: 100%;
         height: 100%;
+    }
+}
+
+.modal-info {
+    @media only screen and (max-width: 575px) {
+        width: 100%;
     }
 }
 
@@ -88,6 +108,14 @@ $colorDarkGray: #262c3e;
             }
         }
     }
+    @media only screen and (max-width: 767px) {
+        right: 30px;
+        top: 30px;
+    }
+    @media only screen and (max-width: 575px) {
+        right: 20px;
+        top: 20px;
+    }
 }
 
 .modal-title {
@@ -98,6 +126,10 @@ $colorDarkGray: #262c3e;
     margin-bottom: 32px;
     padding-right: 40px;
     text-transform: uppercase;
+    @media only screen and (max-width: 575px) {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
 }
 
 .modal-subtitle {
@@ -148,10 +180,6 @@ $colorDarkGray: #262c3e;
         object-fit: contain;
         object-position: center;
     }
-}
-
-.modal-products-item-info {
-
 }
 
 .modal-products-item-title {
@@ -205,3 +233,52 @@ $colorDarkGray: #262c3e;
         }
     }
 }
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    @media only screen and (max-width: 575px) {
+        flex-direction: column;
+    }
+}
+
+.modal-buttons-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 40px;
+    transition: .3s;
+    border: 1px solid $colorBlue;
+    height: 44px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 150%;
+    white-space: nowrap;
+    @media (hover: hover) {
+        cursor: pointer;
+    }
+
+    &.btn-buy-all {
+        background-color: $colorBlue;
+        color: $colorWhite;
+        @media (hover: hover) {
+            &:hover {
+                background-color: $colorWhite;
+                color: $colorBlue;
+            }
+        }
+    }
+
+    &.btn-buy-current {
+        background-color: $colorWhite;
+        color: $colorBlue;
+        @media (hover: hover) {
+            &:hover {
+                background-color: $colorBlue;
+                color: $colorWhite;
+            }
+        }
+    }
+}
+
+

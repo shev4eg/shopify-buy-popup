@@ -7,6 +7,22 @@
         {% assign differencePrice = product.compare_at_price | minus: product.price %}
         {% assign totalSave = totalSave | plus: differencePrice %}
     {% endfor %}
+
+    <script>
+        var productsAll = [
+            {% for product in section.settings.test_popup_products_list %}
+            {
+                id: {{ product.variants.first.id }},
+                quantity: 1
+            },
+            {% unless forloop.last %}, {% endunless %}
+            {% endfor %}
+            {
+                id: {{ product.variants.first.id }},
+                quantity: 1
+            }
+        ];
+    </script>
 {% endif %}
 
 <div class="modal" id="buyModal" style="display: none;">
@@ -34,9 +50,9 @@
                         {% for product in section.settings.test_popup_products_list %}
                             <div class="modal-products-item">
                                 {% if product.featured_image %}
-                                    <div class="modal-products-item-img">
+                                    <a href="{{ product.url }}" class="modal-products-item-img">
                                         <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
-                                    </div>
+                                    </a>
                                 {% endif %}
                                 <div class="modal-products-item-info">
                                     <a href="{{ product.url }}" class="modal-products-item-title">
@@ -60,8 +76,15 @@
                             </div>
                         {% endfor %}
                     </div>
-
                 {% endif %}
+                <div class="modal-buttons">
+                    <button class="modal-buttons-item btn-buy-all" id="buy_modal_btn_all">
+                        Add to Cart
+                    </button>
+                    <button class="modal-buttons-item btn-buy-current" id="buy_modal_btn_current">
+                        Continue to the Cart
+                    </button>
+                </div>
             </div>
             <div class="modal-close js-buy-modal-close">
                 {% render "ico-close" %}
@@ -121,5 +144,87 @@
         if (!showOnce) {
             localStorage.removeItem('modalShown');
         }
+
+        document.getElementById('buy_modal_btn_all').addEventListener('click', function() {
+            fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    items: productsAll
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    updateCartCount();
+                    hideModal();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+
+        document.getElementById('buy_modal_btn_current').addEventListener('click', function() {
+            var productCurrent = [
+                {
+                    id: "{{ product.variants.first.id }}",
+                    quantity: 1
+                }
+            ];
+            fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    items: productCurrent
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    updateCartCount();
+                    hideModal();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+
+        function updateCartCount() {
+            fetch('/cart.js')
+                .then(response => response.json())
+                .then(data => {
+                    var cartBubble = document.querySelector('.cart-count-bubble');
+                    var visibleCountElement = document.querySelector('.cart-count-bubble span:not(.visually-hidden)');
+                    var hiddenCountElement = document.querySelector('.cart-count-bubble span.visually-hidden');
+
+                    if (!visibleCountElement || !hiddenCountElement) {
+                        if (!cartBubble) {
+                            // Якщо немає контейнера для кількості товарів, створюємо його
+                            cartBubble = document.createElement('div');
+                            cartBubble.classList.add('cart-count-bubble');
+                            document.querySelector('#cart-icon-bubble').appendChild(cartBubble);
+                        }
+
+                        visibleCountElement = document.createElement('span');
+                        hiddenCountElement = document.createElement('span');
+                        hiddenCountElement.classList.add('visually-hidden');
+
+                        cartBubble.appendChild(visibleCountElement);
+                        cartBubble.appendChild(hiddenCountElement);
+                    }
+
+                    visibleCountElement.innerText = data.item_count;
+                    hiddenCountElement.innerText = data.item_count;
+
+                    if (data.item_count > 0) {
+                        cartBubble.style.display = 'block';
+                    } else {
+                        cartBubble.style.display = 'none';
+                    }
+                });
+        }
+
     });
 </script>
