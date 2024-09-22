@@ -44,7 +44,7 @@
                                     </a>
                                     {% if product.description %}
                                         <div class="modal-products-item-desc">
-                                            {{ product.description }}
+                                            {{ product.description | strip_html }}
                                         </div>
                                     {% endif %}
                                     {% if product.variants.size > 0 %}

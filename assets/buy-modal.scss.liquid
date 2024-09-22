@@ -2,6 +2,7 @@ $colorBlack: #000000;
 $colorWhite: #ffffff;
 $colorBlue: #05117F;
 $colorGray: #464646;
+$colorDarkGray: #262c3e;
 
 .modal {
     position: fixed;
@@ -122,5 +123,85 @@ $colorGray: #464646;
         font-size: 18px;
         line-height: 133%;
         color: $colorBlue;
+    }
+}
+
+.modal-products {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.modal-products-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.modal-products-item-img {
+    width: 88px;
+    flex-shrink: 0;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+}
+
+.modal-products-item-info {
+
+}
+
+.modal-products-item-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 171%;
+    color: #262c3e;
+    text-decoration: none;
+    transition: .3s color;
+    @media (hover: hover) {
+        &:hover {
+            color: $colorBlue;
+            text-decoration: underline;
+        }
+    }
+}
+
+.modal-products-item-desc {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 133%;
+    color: $colorBlack;
+}
+
+.modal-products-item-sku {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 117%;
+    color: #666;
+    margin: 11px 0;
+}
+
+.modal-products-item-price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    span {
+        white-space: nowrap;
+        &:nth-child(1) {
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 133%;
+            color: $colorBlue;
+        }
+        &:nth-child(2) {
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 133%;
+            text-decoration: line-through;
+            color: #666;
+        }
     }
 }
