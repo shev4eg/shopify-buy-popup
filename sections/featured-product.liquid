@@ -385,22 +385,23 @@
                     block: block,
                     product_form_id: product_form_id
                   %}
-              {%- when 'buy_buttons' -%}
-                {% if section.settings.test_popup_checkbox %}
-                  {%- render 'buy-modal-button',
-                    block: block,
-                    product: product,
-                    product_form_id: product_form_id,
-                    section_id: section.id
-                  -%}
-                {% else %}
-                  {%- render 'buy-buttons',
-                    block: block,
-                    product: product,
-                    product_form_id: product_form_id,
-                    section_id: section.id
-                  -%}
-                {% endif %}
+                {%- when 'buy_buttons' -%}
+                  <div id="buy-modal-button" {% unless section.settings.test_popup_checkbox %}style="display: none;"{% endunless %}>
+                    {%- render 'buy-modal-button',
+                      block: block,
+                      product: product,
+                      product_form_id: product_form_id,
+                      section_id: section.id
+                    -%}
+                  </div>
+                  <div id="buy-buttons" {% if section.settings.test_popup_checkbox %}style="display: none;"{% endif %}>
+                    {%- render 'buy-buttons',
+                      block: block,
+                      product: product,
+                      product_form_id: product_form_id,
+                      section_id: section.id
+                    -%}
+                  </div>
                 {%- when 'custom_liquid' -%}
                   {{ block.settings.custom_liquid }}
                 {%- when 'rating' -%}
@@ -1356,7 +1357,24 @@
       "type": "checkbox",
       "id": "test_popup_checkbox",
       "default": true,
-      "label": "Enable/Disable buy modal"
+      "label": "Enable/Disable Buy Modal"
+    },
+    {
+      "type": "checkbox",
+      "id": "test_popup_show_once",
+      "default": false,
+      "label": "Show only once per customer"
+    },
+    {
+      "type": "image_picker",
+      "id": "test_popup_image",
+      "label": "Select image for Buy Modal",
+      "info": "Choose an image to display in the Buy Modal"
+    },
+    {
+      "type": "text",
+      "id": "test_popup_title",
+      "label": "Title for Buy Modal",
     },
     {
       "type": "product_list",

@@ -1,8 +1,125 @@
 <link rel="stylesheet preload prefetch" href="{{ 'buy-modal.scss.css?enable_css_minification=1' | asset_url }}" as="style" type="text/css" crossorigin="anonymous">
 
-<div class="modal" style="display: none;">
-    <div class="modal-overlay"></div>
+{% if section.settings.test_popup_products_list %}
+    {% assign differencePrice = 0 %}
+    {% assign totalSave = 0 %}
+    {% for product in section.settings.test_popup_products_list %}
+        {% assign differencePrice = product.compare_at_price | minus: product.price %}
+        {% assign totalSave = totalSave | plus: differencePrice %}
+    {% endfor %}
+{% endif %}
+
+<div class="modal" id="buyModal" style="display: none;">
     <div class="modal-box">
-        <h1>{{ product.title }}</h1>
+        <div class="modal-inner">
+            <div class="modal-img">
+                {% if section.settings.test_popup_image %}
+                    <img src="{{ section.settings.test_popup_image | image_url }}" alt="{{ section.settings.test_popup_title }}" />
+                {% else %}
+                    <p>No image selected for Buy Modal.</p>
+                {% endif %}
+            </div>
+            <div class="modal-info">
+                <div class="modal-title">
+                    COMPLETE YOUR PURCHASE
+                </div>
+                <div class="modal-subtitle">
+                    You are trying to add <span>{{ section.settings.test_popup_title }}</span> to the cart.
+                </div>
+                <div class="modal-save">
+                    Complete your look and save <span>{{ totalSave | money | split: '.' | first }}!</span>
+                </div>
+                {% if section.settings.test_popup_products_list %}
+                    <div class="modal-products">
+                        {% for product in section.settings.test_popup_products_list %}
+                            <div class="modal-products-item">
+                                {% if product.featured_image %}
+                                    <div class="modal-products-item-img">
+                                        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+                                    </div>
+                                {% endif %}
+                                <div class="modal-products-item-info">
+                                    <a href="{{ product.url }}" class="modal-products-item-title">
+                                        {{ product.title }}
+                                    </a>
+                                    {% if product.description %}
+                                        <div class="modal-products-item-desc">
+                                            {{ product.description }}
+                                        </div>
+                                    {% endif %}
+                                    {% if product.variants.size > 0 %}
+                                        <div class="modal-products-item-sku">
+                                            SKU: {{ product.variants.first.sku }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="modal-products-item-price">
+                                        <span>{{ product.price | money }}</span>
+                                        <span>{{ product.compare_at_price | money }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
+            </div>
+            <div class="modal-close js-buy-modal-close">
+                {% render "ico-close" %}
+            </div>
+        </div>
     </div>
+    <div class="modal-overlay"></div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('buyModal');
+        var openModalButton = document.querySelector('.js-buy-modal');
+        var closeModalButton = document.querySelector('.js-buy-modal-close');
+        var buyModalButton = document.getElementById('buy-modal-button');
+        var buyButtons = document.getElementById('buy-buttons');
+        var showOnce = {{ section.settings.test_popup_show_once | json }};
+
+        function showModal() {
+            modal.style.display = 'flex';
+            if (showOnce && !localStorage.getItem('modalShown')) {
+                localStorage.setItem('modalShown', true);
+            }
+        }
+
+        function hideModal() {
+            modal.style.display = 'none';
+            if (showOnce && localStorage.getItem('modalShown')) {
+                showBuyButtons()
+            }
+        }
+
+        openModalButton.addEventListener('click', function() {
+            showModal();
+        });
+
+        closeModalButton.addEventListener('click', function() {
+            hideModal();
+        });
+
+        document.addEventListener('mouseup', function(e) {
+            var modalInner = document.querySelector('.modal-inner');
+            if (modalInner && !modalInner.contains(e.target) && e.target !== modalInner) {
+                modal.style.display = 'none';
+            }
+        });
+
+        function showBuyButtons() {
+            buyButtons.style.display = 'block';
+            buyModalButton.style.display = 'none';
+        }
+
+        if (showOnce && localStorage.getItem('modalShown')) {
+            showBuyButtons()
+        }
+
+        if (!showOnce) {
+            localStorage.removeItem('modalShown');
+        }
+    });
+</script>
