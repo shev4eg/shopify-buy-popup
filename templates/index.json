@@ -106,8 +106,15 @@
       ],
       "settings": {
         "product": "jordan-spizike-low",
-        "color_scheme": "scheme-3",
         "test_popup_checkbox": true,
+        "test_popup_show_once": false,
+        "test_popup_image": "shopify:\/\/shop_images\/Image.png",
+        "test_popup_title": "Jordan Spizike Low",
+        "test_popup_products_list": [
+          "nike-everyday-plus",
+          "nike-icon-air-force-1"
+        ],
+        "color_scheme": "scheme-3",
         "secondary_background": false,
         "media_size": "medium",
         "constrain_to_viewport": true,
